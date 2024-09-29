@@ -13,14 +13,15 @@ async function getWorks() {
    
   allWorks.forEach(work => {
     const newFigure = document.createElement("figure");
-    const newFigCaption = document.createElement("Figcaption");
-    newFigCaption.innerText = work.title 
+    const newFigCaption = document.createElement("figcaption");
+    const newImg = document.createElement("img");
+    newFigCaption.innerText = work.title
+    newImg.src = work.imageUrl
+    newImg.alt = work.title
     gallery.appendChild(newFigure);
+    newFigure.appendChild(newImg);
     newFigure.appendChild(newFigCaption);
-    
+
   });
-
-
-
 }
 

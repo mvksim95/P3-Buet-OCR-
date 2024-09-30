@@ -30,6 +30,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #FFFEF8;
+	
 }
 ol, ul {
 	list-style: none;
@@ -186,3 +188,81 @@ footer nav ul {
 	margin: 2em
 }
 
+/* Création du CSS pour la div Filtres */
+.filtres {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 30px;
+	gap: 10px;
+}
+
+/* Pas de données fournies pour le padding du txt sur Figma */
+.filtres button {
+	border-radius: 60px;
+	border: 1px solid #1D6154;
+	font-family: Syne;
+	font-weight: bold;
+	font-size: 16px;
+	text-align: center;
+	line-height: 19.2px;
+	color: #1D6154;
+	padding: 10px 20px;
+}
+
+.filtres button:hover {
+	background-color: #1D6154;
+	color: white;
+}
+
+/* Partie formulaire login */
+.login {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 100px;
+	gap: 20px;
+}
+
+.login h3 {
+	font-family: Syne;
+	font-weight: 700;
+	font-size: 30px;
+	color: #1D6154;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	
+}
+
+#email, #mdp {
+	margin-bottom: 20px;
+	box-shadow: 0px 4px 14px 0px #00000017;
+	width: 380px;
+	height: 50px;
+	border: 1px solid black;
+
+}
+
+.form label {
+	margin-bottom: 5px;
+}
+
+#connect {
+	margin: 0 0 20px 0;
+	border: 1px solid #1D6154;
+	display: flex;
+	align-self: center;
+	font-size: 14px;
+	line-height: 17px;
+	height: 36px;
+	margin: 19px 0 40px 0;
+}
+
+.login #forgetPassword {
+	color: #3D3D3D;
+	display: flex;
+	justify-content: center;
+	
+}

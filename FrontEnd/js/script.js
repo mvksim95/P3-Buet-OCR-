@@ -1,6 +1,8 @@
 // création des const ici
 const gallery = document.querySelector(".gallery");
 const filtres = document.querySelector(".filtres");
+const adminBanner = document.querySelector(".adminBanner");
+const btnModifier = document.querySelector(".modifierAdmin");
 
 // création des variables ici
 let allGallery = [];
@@ -88,6 +90,16 @@ navLinks.forEach(link => {
     });
 });
 
+//affichage (ou non) des éléments suivant l'authentification
+const token = localStorage.getItem('authToken');//<--- rècupères le token dans le localstorage
+if (token) { //<<---- (si token = true)
+  adminBanner.style.display = 'flex'
+  btnModifier.style.display = 'flex'
+  filtres.style.display = 'none'
+} else {
+  adminBanner.style.display = 'none'
+  btnModifier.style.display = 'none'
+}
 
 
 

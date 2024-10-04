@@ -57,9 +57,9 @@ body {
 }
 header {
 	display: flex;
-	justify-content: space-between;
-	margin: 50px 0
+	flex-direction: column;
 }
+
 section {
 	margin: 50px 0
 }
@@ -125,7 +125,7 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	/* margin-bottom: 1em; */
 }
 .gallery {
 	width: 100%;
@@ -189,6 +189,64 @@ footer nav ul {
 }
 
 /* CSS ajouté */
+main {
+	margin-bottom: 355px;
+}
+/* Header */
+
+.mainHeader {
+	display: flex;
+	justify-content: space-between;
+	margin: 50px 0;
+}
+
+.adminBanner {
+	background-color: #000000;
+	color: #FFFFFF;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 18.77px;
+	gap: 10px;
+	font-family: 'Work Sans';
+	width: 100vw;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-self: center;
+	align-items: center;
+	/* display: none; */
+}
+
+/* Partie portfolio */
+
+.projetTitle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 0 30px 0;	
+	gap: 30px;
+}
+
+.modifierAdmin {
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+	font-family: 'work sans';
+	/* display: none; */
+}
+
+.modifierAdmin .fa-pen-to-square{
+	font-size: 16px;
+}
+
+.modifierGalerie {
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.modifierGalerie:visited {
+	color: inherit;
+}
 
 header ul li a {
 	text-decoration: none;
@@ -203,6 +261,8 @@ header ul li a:visited {
 header ul li a.active {
 	font-weight: 700;	
 }
+
+/* filtres */
 
 .filtres {
 	display: flex;
@@ -288,4 +348,5 @@ header ul li a.active {
     font-weight: bold;
 	text-align: center;
 	font-size: 16px;
+	color: red;
 }

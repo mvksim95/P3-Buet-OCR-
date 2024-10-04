@@ -13,34 +13,52 @@ document.addEventListener('DOMContentLoaded', () => {
     // création d'un élément pour le message d'erreur et l'ajouter au formulaire
     const errorMessage = document.createElement('p');
     errorMessage.id = 'errorMessage';
-    errorMessage.style.color = 'red';
     errorMessage.style.display = 'none';
     errorMess.appendChild(errorMessage);
 
 
     // ajout d'un écouteur d'événement sur le submit du formulaire
-    loginForm.addEventListener('submit', (event) => {
+    loginForm.addEventListener('submit', async (event) => {
         event.preventDefault(); // <--- empeche le submit par défaut du formulaire
 
         // récupères les valeurs des champs email et mot de passe
         const email = emailInput.value;
         const password = passwordInput.value;
 
-        // vérifie si les identifiants sont corrects (avec 3 options pour les message d'erreur)
-        if (email !== 'sophie.bluel@test.tld' && password !== 'S0phie') {
-            // display pour afficher le message d'erreur si les identifiants sont incorrects
-            // puis textContent pour saisir le texte à afficher
+        //cache le mess pour chaque submit
+        errorMessage.style.display = 'none';
+
+        try {
+            //fait la requête à l'API pour vérifier les id
+            const reponse = await fetch('http://localhost:5678/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            //si la réponse est ok (statut 200), récupère kle token
+            if (reponse.ok) {
+                const data = await reponse.json();
+                const token = data.token;
+
+                //stock le token dans le localstorage
+                localStorage.setItem('authToken', token);
+
+                //redirige vers index.html après stockage du token
+                window.location.href = 'index.html';
+            } else {
+                // affiche le message d'erreur si les id sont incorrects
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'E-mail ou mot de passe incorrect'
+            }
+        } catch (error) {
+            //gestion erreurs réseaux ou autre
+            console.error('Erreur de connexion', error);
             errorMessage.style.display = 'block';
-            errorMessage.textContent = 'E-mail et mot de passe incorrects'
-        }else if (email !== 'sophie.bluel@test.tld' && password === 'S0phie') {
-            errorMessage.style.display = 'block';
-            errorMessage.textContent = 'E-mail incorrect' 
-        }else if (email === 'sophie.bluel@test.tld' && password !== 'S0phie') {
-            errorMessage.style.display = 'block';
-            errorMessage.textContent = 'Mot de passe incorrect' 
-        } else {
-            // redirige vers index.html si les identifiants sont corrects
-            window.location.href = 'index.html';
+            errorMessage.textContent = 'Une erreur est survenue, veuillez réessayer plus tard.';
         }
     });
 });
+

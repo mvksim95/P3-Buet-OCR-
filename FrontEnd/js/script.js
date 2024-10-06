@@ -64,6 +64,7 @@ function displayWorks(works) {
   });
 }
 
+
 // fonction pour filtrer et affiche la galerie en fonction du filtre sélectionné
 function filterGallery() {
   if (filterChoice == 0) {

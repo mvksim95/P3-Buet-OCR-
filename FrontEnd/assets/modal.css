@@ -11,20 +11,7 @@
     background: rgba(0, 0, 0, 0.8);
 }
 
-.modal-wrapper {
-    background-color: white;
-    width: 600px;
-    padding: 20px;
-    max-width: calc(100vw - 20px);
-    max-height: calc(100vh - 20px);
-    overflow: auto;
-}
-
-button {
-    cursor: pointer;
-}
-
-.modal-wrapper {
+.modal-to-add {
     overflow: auto;
     display: flex;
     flex-direction: column;
@@ -34,16 +21,23 @@ button {
     max-width: calc(100vw - 20px);
     max-height: calc(100vh - 20px);
     background-color: #FFF;
-    padding: 20px;
+    padding: 25px;
     border-radius: 10px;
     margin-top: 100px;
     gap: 0px;
 }
 
+
+button {
+    cursor: pointer;
+}
+
+
 .icones {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-top: 5px;
 
 }
 
@@ -59,21 +53,21 @@ button {
     outline: none;
 }
 
-.modal-wrapper h3 {
+.modal-to-add h3, .hiddenModal h3 {
     display: flex;
     justify-content: center;
     font-weight: 400;
     line-height: 30.5px;
     font-size: 26px;
-    margin: 20px 0 0 0;
+    margin: 15px 0 0 0;
 }
 
-.modal-wrapper h3, .addPhoto, .btn-txt, form label, form input, form select {
+.modal-to-add h3, .addPhoto, .btn-txt, form label, form input, form select, .hiddenModal h3 {
     font-family: 'Work Sans';
 }
 
 .ajout-photo {
-    margin-top: 30px;
+    margin-top: 35px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -127,7 +121,7 @@ form label {
 
 form input,
 form select {
-    margin-top: 5px;
+    margin-top: 10px;
     width: 420px;
     height: 51px;
     box-shadow: 0px 4px 14px 0px #00000017;
@@ -139,11 +133,11 @@ form select {
     height: 0px;
     width: 420px;
     border: 1px solid #B3B3B3;
-    margin: 30px 0 0 0;
+    margin: 45px 0 0 0;
 }
 
-.submitValider {
-    margin: 30px auto 0 auto;
+.submitValider, .hiddenModal .btn-add-photo {
+    margin: 32px auto 0 auto;
     font-size: 14px;
     font-weight: 700;
     line-height: 16.8px;
@@ -155,4 +149,72 @@ form select {
     border-style: none;
     font-family: 'Syne';
 
+}
+
+/* hidden modal */
+
+.hiddenModal {
+    display: none; 
+    overflow: auto;
+    flex-direction: column;
+    align-items: center;
+    width: 630px;
+    height: 670px;
+    max-width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
+    background-color: #FFF;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 100px;
+    gap: 0px;
+}
+
+.hiddenModal .ligne {
+    margin-top: 65px;
+}
+
+.hiddenModal .btn-add-photo {
+    margin-top: 38px;
+    background-color: #1D6154;
+}
+
+.gallerie {
+    margin-top: 45px;
+    width: 421px;
+	display: grid;
+	grid-template-columns: 77px 77px 77px 77px 77px;
+	grid-column-gap: 10px;
+	grid-row-gap: 29px;
+
+}
+
+.gallerie img {
+    display: flex;
+    justify-content: center;
+    width: 77px;
+    height: 102.5px;
+}
+
+.hiddenModal .icones {
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.fa-trash-can {
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 9px;
+}
+
+.trash-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 6.5px;
+    right: 5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    background-color: #000000;
 }

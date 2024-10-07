@@ -47,7 +47,7 @@ async function getWorks() {
 }
 
 // fonction pour afficher les oeuvres dans la galerie
-function displayWorks(works) {
+ export function displayWorks(works) {
   gallery.innerHTML = ''; //<- important pour vider la galerie, sinon à chaque choix de filtre il y aura un ajout de work a la suite les uns des autres
   works.forEach(work => {
     const newFigure = document.createElement("figure");

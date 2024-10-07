@@ -3,6 +3,8 @@ const focusableSelector = 'button, a , input, textarea'
 let focusables = []
 let previouslyFocusedElement = null
 
+import { displayWorks } from "./script.js";
+
 //recuperation des img de l'API pour la modalGallery  
 getWorks()
 
@@ -97,7 +99,7 @@ const switchButtonToAdd = document.querySelector('.btn-add-photo')
 async function getWorks() {
     const response = await fetch("http://localhost:5678/api/works");
     allworks = await response.json();
-    displayWorks(allworks);
+    displayWorksOnModal(allworks);
 }
 
 const switchToGalleryModal = function (e) {
@@ -126,7 +128,7 @@ const galerie = document.querySelector('.gallerie')
 
 let allworks = [];
 
-function displayWorks(works) {
+function displayWorksOnModal(works) {
     works.forEach(work => {
         //créer un conteneur pour chaque image et son icone
         const container = document.createElement("div");
@@ -157,14 +159,15 @@ function displayWorks(works) {
 
 //suppression des travaux dans la modal 
 
-async function deleteWorks() {
+async function deleteWorks(event) {
     try {
-
+        // récupère le conteneur de l'img à partir de l'icone poubelle
         const container = event.target.closest(".img-container");
         const workIndex = Array.from(galerie.children).indexOf(container);
         const workId = allworks[workIndex].id;
 
-        const response = await fetch('http://localhost:5678/api/works/${workId}', {
+        // requete delete pour supp l'element de l'API
+        const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -173,15 +176,23 @@ async function deleteWorks() {
         });
 
         if (response.ok) {
-            alert('Travail supprimé')
+            // Supprimer l'élément du tableau allworks
+            allworks.splice(workIndex, 1);
+
+            // Régénérer la galerie avec les données mises à jour via la fonction importée
+            displayWorks(allworks);
+
+            // Supprimer l'élément du DOM de la modale
             galerie.removeChild(container);
+
         } else {
             alert('Erreur lors de la suppression')
         }
 
 
     } catch {
-        console.error('erreur de connexion', error);
+        console.error('erreur de connexion');
         alert('Une erreur est survenue');
     }
 }
+

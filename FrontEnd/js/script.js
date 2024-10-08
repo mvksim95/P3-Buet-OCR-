@@ -44,10 +44,11 @@ async function getWorks() {
   const response = await fetch("http://localhost:5678/api/works");
   allGallery = await response.json();
   displayWorks(allGallery);
+  console.log(allGallery)
 }
 
 // fonction pour afficher les oeuvres dans la galerie
- export function displayWorks(works) {
+export function displayWorks(works) {
   gallery.innerHTML = ''; //<- important pour vider la galerie, sinon à chaque choix de filtre il y aura un ajout de work a la suite les uns des autres
   works.forEach(work => {
     const newFigure = document.createElement("figure");
@@ -82,13 +83,13 @@ const navLinks = document.querySelectorAll('header ul li a');
 
 // ajout d'un écouteur d'événement sur les lien
 navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        // supprime la classe active des liens
-        navLinks.forEach(link => link.classList.remove('active'));
-        
-        // ajouter la classe active au lien cliqué
-        link.classList.add('active');
-    });
+  link.addEventListener('click', () => {
+    // supprime la classe active des liens
+    navLinks.forEach(link => link.classList.remove('active'));
+
+    // ajouter la classe active au lien cliqué
+    link.classList.add('active');
+  });
 });
 
 //affichage (ou non) des éléments suivant l'authentification
@@ -102,6 +103,28 @@ if (token) { //<<---- (si token = true)
   btnModifier.style.display = 'none'
 }
 
+//gestion du login/logout
+document.addEventListener("DOMContentLoaded", () => {
+  const loginButton = document.querySelector(".loginButton");//<<- récupères le bouton login dans le dom
+
+  //affiche logout si le token est présent 
+  if (token) {
+    loginButton.innerText = 'logout'
+  }
+  
+  //partant du principe qu'un visiteur vienne sur la page, la premiere condition est logiquement qu'il n'y a pas de token
+  loginButton.addEventListener("click", () => {
+    if (!token) {
+      // si le token est absent, redirige vers la page de login
+      window.location.href = "login.html";
+
+    } else {
+      // si le token est présent, supprime le token et recharge la page en mode visiteur
+      localStorage.removeItem("authToken");
+      window.location.href = "index.html"; // recharge la page actuelle
+    }
+  });
+});
 
 
 

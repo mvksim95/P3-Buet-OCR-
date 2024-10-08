@@ -31,7 +31,7 @@
 				<ul>
 					<li><a href="#portfolio">projets</a></li>
 					<li><a href="#contact">contact</a></li>
-					<li><a href="./login.html">login</a></li>
+					<li><a href="#" class="loginButton">login</a></li>
 					<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 				</ul>
 			</nav>
@@ -74,35 +74,37 @@
 							</button>
 						</div>
 						<h3 id="titlemodal">Ajout photo</h3>
-						<div class="ajout-photo">
-							<i class="fa-regular fa-image"></i>
-							<button class="addPhoto">+ Ajouter photo</button>
-							<p class="btn-txt">jpg, png : 4mo max</p>
-						</div>
-						<form action="#" method="post">
+						<form action="#" method="post" id="addForm">
+							<div class="ajout-photo">
+								<img src="" alt="" class="imgUpload">
+								<i class="fa-regular fa-image"></i>
+								<button class="addPhoto">
+									+ Ajouter photo
+								</button>
+								<input name='fileInput' type="file" id="fileInput" style="display: none;">
+								<p class="btn-txt">jpg, png : 4mo max</p>
+							</div>
 							<label for="Titre">Titre</label>
-							<input type="text" name="Titre" id="Titre">
-							<br>
+							<input type="text" name="Titre" id="Titre" required>
+							
 							<label for="categories">Catégorie</label>
-							<select name="categories" id="categories">
-								<option value="">...</option>
-								<option value="style">Hébérgements</option>
-							</select>
+							<select name="categories" id="categories" class="categorie-select" required></select>
 							<hr class="ligne">
 							<button type="submit" class="submitValider">Valider</button>
 						</form>
+						<div class="messErreur"></div>
 					</div>
 					<div class="hiddenModal js-modal-stop">
-							<div class="icones">
-								<button class="icon-btn js-modal-close">
-									<i class="fa-solid fa-xmark"></i>
-								</button>   
-							</div>
-							<h3>Galerie photo</h3>
-							<div class="gallerie">
-							</div>
-							<hr class="ligne">
-							<button type="button" class="btn-add-photo">Ajouter une photo</button>
+						<div class="icones">
+							<button class="icon-btn js-modal-close">
+								<i class="fa-solid fa-xmark"></i>
+							</button>
+						</div>
+						<h3>Galerie photo</h3>
+						<div class="gallerie">
+						</div>
+						<hr class="ligne">
+						<button type="button" class="btn-add-photo">Ajouter une photo</button>
 					</div>
 				</aside>
 			</div>

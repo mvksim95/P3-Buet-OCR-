@@ -44,7 +44,6 @@ async function getWorks() {
   const response = await fetch("http://localhost:5678/api/works");
   allGallery = await response.json();
   displayWorks(allGallery);
-  console.log(allGallery)
 }
 
 // fonction pour afficher les oeuvres dans la galerie

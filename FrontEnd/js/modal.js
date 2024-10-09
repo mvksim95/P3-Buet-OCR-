@@ -39,7 +39,6 @@ const openModal = function (e) {
 const closeModal = function (e) {
     if (modal === null) return
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
-    e.preventDefault()
     console.log('fonction closeModal ok')//<-- affiche que la func pour fermer la modal est ok 
     modal.style.display = "none"
     modal.setAttribute('aria-hidden', 'true')
@@ -49,6 +48,10 @@ const closeModal = function (e) {
     modalGallery.querySelector('.js-modal-close').removeEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation)
     modal = null
+
+    //réinitialise le formulaire et l'img si on close la modal 
+    document.getElementById('addForm').reset();
+    resetImagePreview();//<-- réutilisation da la fonctione resetImagePreview
 }
 
 //empeche la propagation de l'evenement vers les parents (empeche le probleme de click qui ferme la modale à l'interieur du contenu)
@@ -188,6 +191,7 @@ async function deleteWorks(event) {
 
         } else {
             alert('Erreur lors de la suppression')
+            console.log('une erreur est survenue à la fonction deleteWorks')
         }
 
 
@@ -225,7 +229,7 @@ async function loadCategories() {
                 categorySelect.appendChild(option);
             });
         } else {
-            console.error('Erreur lors de la récupération des catégories');
+            console.error('une erreur est survenue à la fonction loadCategories');
         }
     } catch (error) {
         console.error('Erreur de connexion', error);
@@ -246,6 +250,13 @@ fileInput.addEventListener('change', function () {
             imgUpload.src = e.target.result; //<-- affiche l'image dans la balise <img>
             imgUpload.style.display = 'block'; // annule le display none
             document.querySelector('.addPhoto').style.display = 'none'; // cache le bouton d'ajout
+
+            //pour éviter que le mess d'erreur reste apparent si on ajoute une img
+            const messErreur = document.querySelector('.messErreur');
+            if (messErreur) {
+                messErreur.innerHTML = '';//<-- vide le mess
+            }
+            checkFormCompletion();//<<-- appel de la fonction pour re vérifier et changer la couleur du boutton
         };
         reader.readAsDataURL(file); // convertit l'image en URL lisable
     }
@@ -276,7 +287,8 @@ document.getElementById('fileInput').addEventListener('change', checkFormComplet
 document.getElementById('Titre').addEventListener('input', checkFormCompletion);
 document.getElementById('categories').addEventListener('change', checkFormCompletion);
 
-// validation du formulaire et soumission des données insérées vers l'API
+
+// validation du formulaire et soumission des données mise vers l'API
 document.getElementById('addForm').addEventListener('submit', async function (event) {
     event.preventDefault(); // empeche le rechargement de la page
 
@@ -287,20 +299,19 @@ document.getElementById('addForm').addEventListener('submit', async function (ev
 
     // vérifie si tous les champs sont bien remplis avec la fonction checkForm
     if (!checkFormCompletion()) {
-        // si les champs ne sont pas tous remplis, affiche le mess d'erreur
         const fileInput = document.getElementById('fileInput');
         if (!fileInput.files.length) {
-            messErreurTxt.innerText = 'Veuillez remplir tout les champs avant de valider l\'ajout';
-            messErreur.appendChild(messErreurTxt); //<-- ajoute le message d'erreur dans la div messErreur
+            messErreurTxt.innerText = 'Veuillez remplir tous les champs avant de valider l\'ajout';
+            messErreur.appendChild(messErreurTxt); // ajoute le message d'erreur dans la div messErreur
         }
-        return; // empeche la soumission du formulaire si il est est incomplet
+        return; // empêche la soumission du formulaire si il est incomplet
     }
 
-    // création de l'objet FormData pour capter les données du formulaire
+    // création de l'objet FormData pour capturer les données du formulaire
     const formData = new FormData();
-    formData.append('image', document.getElementById('fileInput').files[0]); //<- ajoute l'image
-    formData.append('title', document.getElementById('Titre').value); // <---ajoute le titre
-    formData.append('category', document.getElementById('categories').value); //<<- ajoute la catégorie
+    formData.append('image', document.getElementById('fileInput').files[0]); // ajoute l'image
+    formData.append('title', document.getElementById('Titre').value); // ajoute le titre
+    formData.append('category', document.getElementById('categories').value); // ajoute la catégorie
 
     try {
         const response = await fetch('http://localhost:5678/api/works', {
@@ -308,17 +319,94 @@ document.getElementById('addForm').addEventListener('submit', async function (ev
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
             },
-            body: formData //<<-- envoie les données du formulaire
+            body: formData // envoie les données du formulaire
         });
 
         if (response.ok) {
-            const data = await response.json();
+            const newWork = await response.json();
             alert('Travail ajouté avec succès');
+
+            // ajoute le nouveau travail à la liste allworks
+            allworks.push(newWork);
+
+            // actualise la galerie principale
+            displayWorks(allworks);
+
+            // actualise la galerie de la modale
+            addNewWorkToModalGallery(newWork);
+
+            // réinitialise le champ de fichier et l'image prévisualisée
+            resetImagePreview();
+
+            // réinitialise le formulaire pour les autre champs
+            document.getElementById('addForm').reset();
+
+            // ferme la modale après soumission
+            closeModal();
+
         } else {
             alert('Erreur lors de l\'ajout du travail');
         }
     } catch (error) {
         console.error('Erreur de connexion', error);
-        alert('Une erreur est survenue');
+        alert('une erreur est survenue');
     }
 });
+
+// fonction pour réinitialiser l'image prévisualisée
+function resetImagePreview() {
+    const imgUpload = document.querySelector('.imgUpload');
+    const addPhotoButton = document.querySelector('.addPhoto');
+    
+    if (imgUpload) {
+        // vide le champ de fichier
+        document.getElementById('fileInput').value = ''; 
+
+        // réinitialiser l'image prévisualisé
+        imgUpload.src = ''; // efface l'image
+        imgUpload.style.display = 'none'; // cacher l'image
+
+        // remet le bouton d'ajout de photo visible
+        addPhotoButton.style.display = 'block';
+    } else {
+        console.error('un problème est survenue à la fonction reset image preview');
+    }
+}
+
+// fonction pour ajouter dynamiquement le nouveau travail à la galerie de la modale---
+function addNewWorkToModalGallery(work) {
+    const galerie = document.querySelector('.gallerie');
+
+    if (galerie) {
+        // creer un nouveau conteneur
+        const newWorkItem = document.createElement('div');
+        newWorkItem.classList.add('img-container');
+        newWorkItem.style.position = 'relative';
+
+        // ajoute l'image
+        const img = document.createElement('img');
+        img.src = work.imageUrl; // utilise l'URL de l'image retournée par l'API
+        img.alt = work.title;
+
+        // ajouter le conteneu de l'icône de suppression
+        const trashContainer = document.createElement('div');
+        trashContainer.classList.add('trash-container');
+
+        // ajouter l'icône de la poubelle
+        const trashLogo = document.createElement('i');
+        trashLogo.classList.add('fa-solid', 'fa-trash-can');
+
+        // assemble l'image et l'icône dans le conteneur
+        newWorkItem.appendChild(img);
+        newWorkItem.appendChild(trashContainer);
+        trashContainer.appendChild(trashLogo);
+
+        // ajoute le nouveau travail dans la galerie de la modale
+        galerie.appendChild(newWorkItem);
+
+        // ajouter l'événement pour supprimer ce travail (réutilise la fonction deleteWorks)
+        trashLogo.addEventListener('click', deleteWorks);
+    } else {
+        console.error('une erreur est survenue à la fonction addNewWorkToModalGallery');
+    }
+}

@@ -20,7 +20,6 @@ const openModal = function (e) {
     focusables[0].focus() // <<-- focus par défaut à l'ouverture de la boite modal
     modal.removeAttribute('aria-hidden')
     modal.setAttribute('aria-modal', 'true')
-    console.log(modal)
 
     modal.addEventListener('click', function (e) {
         // vérifie si le clic est en dehors des modales "modal-to-add" et "hiddenModal"
@@ -52,6 +51,12 @@ const closeModal = function (e) {
     //réinitialise le formulaire et l'img si on close la modal 
     document.getElementById('addForm').reset();
     resetImagePreview();//<-- réutilisation da la fonctione resetImagePreview
+
+    // réinitialise le mess d'erreur
+    const messErreur = document.querySelector('.messErreur');
+    if (messErreur) {
+        messErreur.innerHTML = '';
+    }
 }
 
 //empeche la propagation de l'evenement vers les parents (empeche le probleme de click qui ferme la modale à l'interieur du contenu)
@@ -100,6 +105,7 @@ const modalGallery = document.querySelector('.hiddenModal')
 const switchButtonToGallery = document.querySelector('.switch')
 const switchButtonToAdd = document.querySelector('.btn-add-photo')
 
+//fonction pour récupérer les travaux
 async function getWorks() {
     const response = await fetch("http://localhost:5678/api/works");
     allworks = await response.json();
@@ -299,12 +305,9 @@ document.getElementById('addForm').addEventListener('submit', async function (ev
 
     // vérifie si tous les champs sont bien remplis avec la fonction checkForm
     if (!checkFormCompletion()) {
-        const fileInput = document.getElementById('fileInput');
-        if (!fileInput.files.length) {
-            messErreurTxt.innerText = 'Veuillez remplir tous les champs avant de valider l\'ajout';
-            messErreur.appendChild(messErreurTxt); // ajoute le message d'erreur dans la div messErreur
-        }
-        return; // empêche la soumission du formulaire si il est incomplet
+        messErreurTxt.innerText = 'Veuillez remplir tous les champs avant de valider l\'ajout';
+        messErreur.appendChild(messErreurTxt);
+        return; // empeche la soumission si le formulaire est incomplet
     }
 
     // création de l'objet FormData pour capturer les données du formulaire
@@ -313,6 +316,7 @@ document.getElementById('addForm').addEventListener('submit', async function (ev
     formData.append('title', document.getElementById('Titre').value); // ajoute le titre
     formData.append('category', document.getElementById('categories').value); // ajoute la catégorie
 
+    //requete API pour soumettre les données
     try {
         const response = await fetch('http://localhost:5678/api/works', {
             method: 'POST',
@@ -346,6 +350,7 @@ document.getElementById('addForm').addEventListener('submit', async function (ev
 
         } else {
             alert('Erreur lors de l\'ajout du travail');
+            console.log('Erreur lors de la fonction pour l\'ajout du travail');
         }
     } catch (error) {
         console.error('Erreur de connexion', error);

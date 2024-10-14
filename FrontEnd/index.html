@@ -61,7 +61,7 @@
 					<a href="#modal1" class="modifierGalerie js-modal">modifier</a>
 				</div>
 				<!-- MODAL -->
-				<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal"
+				<div id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal"
 					style="display: none;">
 					<!-- deux classe pour la div du dessous notamment pour le stopPropagattion -->
 					<div class="modal-to-add js-modal-stop">
@@ -76,7 +76,7 @@
 						<h3 id="titlemodal">Ajout photo</h3>
 						<form action="#" method="post" id="addForm">
 							<div class="ajout-photo">
-								<img src="" alt="" class="imgUpload">
+								<img src="#" alt="" class="imgUpload">
 								<i class="fa-regular fa-image"></i>
 								<button class="addPhoto">
 									+ Ajouter photo
@@ -88,7 +88,9 @@
 							<input type="text" name="Titre" id="Titre" required>
 							
 							<label for="categories">Catégorie</label>
-							<select name="categories" id="categories" class="categorie-select" required></select>
+							<select name="categories" id="categories" class="categorie-select" required>
+								<option value="" disabled selected>Choisir une catégorie</option>
+							</select>
 							<hr class="ligne">
 							<button type="submit" class="submitValider">Valider</button>
 						</form>
@@ -106,7 +108,7 @@
 						<hr class="ligne">
 						<button type="button" class="btn-add-photo">Ajouter une photo</button>
 					</div>
-				</aside>
+				</div>
 			</div>
 			<div class="filtres"></div>
 			<div class="gallery"></div>

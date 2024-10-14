@@ -5,10 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('mdp');
     const errorMess = document.querySelector(".errorMess")
-    console.log(loginForm)
-    console.log(emailInput)
-    console.log(passwordInput)
-    console.log(errorMess)
 
     // création d'un élément pour le message d'erreur et l'ajouter au formulaire
     const errorMessage = document.createElement('p');

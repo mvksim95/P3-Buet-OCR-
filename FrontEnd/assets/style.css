@@ -92,11 +92,12 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
+	gap: 44px;
 
 }
 
 nav li {
-	padding: 0 10px;
+	padding: 0;
 	font-size: 1.2em;
 }
 

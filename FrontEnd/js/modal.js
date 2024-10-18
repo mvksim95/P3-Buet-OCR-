@@ -47,6 +47,8 @@ const closeModal = function (e) {
     modalGallery.querySelector('.js-modal-close').removeEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation)
     modal = null
+    modalGallery.style.display = 'flex';
+    modalToAdd.style.display = 'none';
 
     //réinitialise le formulaire et l'img si on close la modal 
     document.getElementById('addForm').reset();
@@ -124,7 +126,7 @@ const switchToAddModal = function (e) {
     e.preventDefault()
     e.stopPropagation()
     console.log('switch to add ok')
-    modalGallery.style.display = ''
+    modalGallery.style.display = 'none'
     modalToAdd.style.display = 'flex'
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
 }

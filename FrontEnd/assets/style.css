@@ -310,6 +310,11 @@ header ul li a.active {
 	gap: 10px;
 }
 
+.filtres button.active {
+	background-color:#1D6154;
+	color: #FFFFFF;
+}
+
 /* Pas de données fournies pour le padding du txt sur Figma */
 .filtres button {
 	border-radius: 60px;

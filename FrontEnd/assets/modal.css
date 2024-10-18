@@ -13,7 +13,7 @@
 
 .modal-to-add {
     overflow: auto;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     width: 630px;
@@ -155,7 +155,7 @@ form select {
 /* hidden modal */
 
 .hiddenModal {
-    display: none; 
+    display: flex; 
     overflow: auto;
     flex-direction: column;
     align-items: center;

@@ -33,6 +33,15 @@ async function getFilters() {
   // ajout de l'écouteur d'événement sur les boutons de filtre
   filtres.addEventListener('click', (event) => {
     if (event.target.tagName === 'BUTTON') { //<<- BUTTON en maj car la valeur est toujours renvoyé en MAJUSCULE par le DOM
+
+       //retire la classe active de tous les boutons de filtre
+       document.querySelectorAll('.filtres button').forEach(button => {
+        button.classList.remove('active');
+    });
+
+    //ajoute la classe active au bouton cliqué
+    event.target.classList.add('active');
+
       filterChoice = event.target.dataset.id; //<-- pour récupérer l'ID de la catégorie choisie
       filterGallery(); // filtre la galerie en fonction du choix du filtre
     }
